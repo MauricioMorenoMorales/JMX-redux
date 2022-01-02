@@ -1,6 +1,6 @@
 import React from 'react';
 
-const CardItem = ({ data, deleteFromCart }) => {
+const CardItem = ({ data, delOneFromCart, delAllFromCart }) => {
 	const { id, name, price, quantity } = data;
 	return (
 		<div style={{ borderBottom: 'thin solid gray' }}>
@@ -8,9 +8,9 @@ const CardItem = ({ data, deleteFromCart }) => {
 			<h5>
 				${price}.00 x {quantity} = ${price * quantity}.00
 			</h5>
-			<button onClick={() => deleteFromCart(id)}>Eliminar</button>
+			<button onClick={() => delOneFromCart(id)}>Eliminar</button>
 			<br />
-			<button onClick={() => deleteFromCart(id, true)}>Eliminar Todos</button>
+			<button onClick={() => delAllFromCart(id, true)}>Eliminar Todos</button>
 			<br />
 			<br />
 		</div>
