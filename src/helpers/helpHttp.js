@@ -16,6 +16,7 @@ export const helpHttp = () => {
 		console.log(options);
 		setTimeout(() => controller.abort(), 4000);
 
+		// prettier-ignore
 		return fetch(endpoint, options)
 			.then(res =>
 				res.ok
@@ -24,7 +25,7 @@ export const helpHttp = () => {
 							err: true,
 							status: res.status || '00',
 							statusText: res.statusText || 'Ocurrió un error',
-					  }),
+						}),
 			)
 			.catch(err => err);
 	};

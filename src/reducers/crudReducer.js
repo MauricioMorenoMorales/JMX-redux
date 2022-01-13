@@ -1,4 +1,10 @@
-import { TYPES } from '../actions/crudActions';
+import {
+	CREATE_DATA,
+	DELETE_DATA,
+	NO_DATA,
+	READ_ALL_DATA,
+	UPDATE_DATA,
+} from '../types';
 
 export const crudInitialState = {
 	db: null,
@@ -6,19 +12,19 @@ export const crudInitialState = {
 
 export const crudReducer = function (state, action) {
 	switch (action.type) {
-		case TYPES.READ_ALL_DATA: {
+		case READ_ALL_DATA: {
 			return {
 				...state,
 				db: action.payload.map(data => data),
 			};
 		}
-		case TYPES.CREATE_DATA: {
+		case CREATE_DATA: {
 			return {
 				...state,
 				db: [...state.db, action.payload],
 			};
 		}
-		case TYPES.UPDATE_DATA: {
+		case UPDATE_DATA: {
 			let newData = state.db.map(element =>
 				element.id === action.payload.id ? action.payload : element,
 			);
@@ -27,18 +33,16 @@ export const crudReducer = function (state, action) {
 				db: newData,
 			};
 		}
-		case TYPES.DELETE_DATA: {
+		case DELETE_DATA: {
 			const newData = state.db.filter(element => element.id !== action.payload);
 			return {
 				...state,
 				db: newData,
 			};
 		}
-		case TYPES.NO_DATA: {
+		case NO_DATA: {
 			return crudInitialState;
 		}
-		case TYPES.READ_ALL_DATA:
-			return crudInitialState;
 		default:
 			break;
 	}

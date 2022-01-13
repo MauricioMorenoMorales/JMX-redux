@@ -14,3 +14,10 @@ export const REMOVE_ALL_FROM_CART = 'REMOVE_ALL_FROM_CART';
 export const CLEAR_CART = 'CLEAR_CART';
 
 //Crud
+
+export const CREATE_DATA = 'CREATE_DATA';
+export const READ_ALL_DATA = 'READ_ALL_DATA';
+export const READ_ONE_DATA = 'READ_ONE_DATA';
+export const UPDATE_DATA = 'UPDATE_DATA';
+export const DELETE_DATA = 'DELETE_DATA';
+export const NO_DATA = 'NO_DATA';
