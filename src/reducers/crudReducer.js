@@ -6,11 +6,11 @@ import {
 	UPDATE_DATA,
 } from '../types';
 
-export const crudInitialState = {
-	db: null,
+export const initialState = {
+	db: [],
 };
 
-export const crudReducer = function (state, action) {
+export const crudReducer = function (state = initialState, action) {
 	switch (action.type) {
 		case READ_ALL_DATA: {
 			return {
@@ -41,9 +41,9 @@ export const crudReducer = function (state, action) {
 			};
 		}
 		case NO_DATA: {
-			return crudInitialState;
+			return initialState;
 		}
 		default:
-			break;
+			return initialState;
 	}
 };

@@ -1,7 +1,13 @@
-import React, { useState, useEffect, useReducer } from 'react';
-import { TYPES } from '../actions/crudActions';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+	createAction,
+	deleteAction,
+	noAction,
+	readAllAction,
+	updateAction,
+} from '../actions/crudActions';
 import { helpHttp } from '../helpers/helpHttp';
-import { crudInitialState, crudReducer } from '../reducers/crudReducer';
 
 import CrudForm from './CrudForm';
 import CrudTable from './CrudTable';
@@ -9,14 +15,15 @@ import Loader from './Loader';
 import Message from './Message';
 
 const CrudApi = () => {
-	const [state, dispatch] = useReducer(crudReducer, crudInitialState);
-	const { db } = state;
+	const state = useSelector(state => state);
+	const dispatch = useDispatch();
+	const { db } = state.crud;
 	const [dataToEdit, setDataToEdit] = useState(null); // Is used in the <form /> and is activated on the component <crudTable />
 	const [error, setError] = useState(null);
 	const [loading, setLoading] = useState(true);
 
 	const api = helpHttp();
-	let url = 'http://localhost:3333/santos';
+	let url = 'http://localhost:5000/santos';
 
 	useEffect(() => {
 		setLoading(true);
@@ -24,15 +31,15 @@ const CrudApi = () => {
 			.get(url)
 			.then(res => {
 				if (!res.err) {
-					dispatch({ type: TYPES.READ_ALL_DATA, payload: res });
+					dispatch(readAllAction(res));
 					setError(null);
 				} else {
-					dispatch({ type: TYPES.NO_DATA });
+					dispatch(noAction());
 					setError(res);
 				}
 			});
 		setLoading(false);
-	}, [url]);
+	}, [url, dispatch]);
 
 	const createData = data => {
 		data.id = Date.now();
@@ -44,7 +51,7 @@ const CrudApi = () => {
 			.post(url, options)
 			.then(fetchResponse =>
 				!fetchResponse.err
-					? dispatch({ type: TYPES.CREATE_DATA, payload: fetchResponse })
+					? dispatch(createAction(fetchResponse))
 					: setError(fetchResponse),
 			);
 	};
@@ -59,7 +66,7 @@ const CrudApi = () => {
 			.put(endPoint, options)
 			.then(postResponse =>
 				!postResponse.err
-					? dispatch({ type: TYPES.UPDATE_DATA, payload: postResponse })
+					? dispatch(updateAction(postResponse))
 					: setError(postResponse),
 			);
 	};
@@ -77,7 +84,7 @@ const CrudApi = () => {
 				.del(endPoint, options)
 				.then(deleteResponse =>
 					!deleteResponse.err
-						? dispatch({ type: TYPES.DELETE_DATA, payload: id })
+						? dispatch(deleteAction(id))
 						: setError(deleteResponse),
 				);
 		} else {
